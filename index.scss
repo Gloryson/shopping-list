@@ -78,6 +78,54 @@
   }
 }
 
+.prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1rem;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  z-index: 100;
+
+  .input__area, .input__button {
+    width: 30rem;
+    height: 5rem;
+    border-radius: 0.5rem;
+    box-shadow: #66666642 0 0 0.5rem 0.1rem;
+  }
+
+  .input__area {
+    padding-left: 0.5rem;
+    border: none;
+    font-size: 2rem;
+    outline-color: #66666683;
+  }
+
+  .input__button  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #1d6fda;
+    color: #ffffff;
+    font-size: 2.5rem;
+
+    &:hover {
+      background-color: #3581e4;
+    }
+
+    &:active {
+      box-shadow: none;
+      transform: scale(0.99);
+    }
+  }
+}
+
 .off {
   display: none;
 }

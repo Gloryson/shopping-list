@@ -10,16 +10,38 @@ if (importLocalStorage) {
 
 
 
+let viewport = document.querySelector("meta[name=viewport]");
+viewport.setAttribute("content", viewport.content + ", height=" + window.innerHeight);
+
+
+
+
+
+
 let add = document.querySelector('.add-button');
+let modal = document.querySelector('.prompt');
+let input = document.querySelector('.input__area');
+let button = document.querySelector('.input__button');
 
 add.addEventListener('click', () => {
-  let newNote = {};
-  newNote.text = prompt('Enter text here!');
-  newNote.strike = false;
-  newNote.id = array.length;
-  array.push(newNote)
-  renderNotes()
+  button.classList.remove('edit__button')
+  modal.classList.remove('off');
+  input.focus();
 })
+
+button.addEventListener('click', () => {
+  if (!button.classList.contains('edit__button')) {
+    let newNote = {};
+    newNote.text = input.value;
+    newNote.strike = false;
+    newNote.id = array.length;
+    array.push(newNote);
+    renderNotes();
+    modal.classList.add('off');
+    input.value = '';
+  }
+})
+
 
 
 
@@ -107,6 +129,19 @@ function deleteNote () {
 
 
 function editNote () {
-  array[this.getAttribute('id')].text = prompt('Enter text here!');
-  renderNotes();
+  button.classList.add('edit__button');
+  modal.classList.remove('off');
+  input.focus();
+  input.value = array[this.getAttribute('id')].text;
+  let tempThis = this;
+  button.addEventListener('click', function tempFunc () {
+    if (button.classList.contains('edit__button')) {
+      array[tempThis.getAttribute('id')].text = input.value;
+      input.value = '';
+      renderNotes();
+      modal.classList.add('off');
+      button.classList.remove('edit__button');
+      button.removeEventListener('click', tempFunc);
+    }
+  })
 }
