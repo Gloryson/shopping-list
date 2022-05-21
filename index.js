@@ -1,12 +1,10 @@
+const container = document.querySelector('.container');
+const addNoteButton = document.querySelector('.add-button');
+const inputModalWindow = document.querySelector('.input__modal');
+const input = document.querySelector('.input__area');
+const inputButton = document.querySelector('.input__button');
 let importLocalStorage = localStorage.getItem('shopping-list-for-mayo');
 let array = [];
-
-if (importLocalStorage) {
-  array = [...JSON.parse(importLocalStorage)];
-  renderNotes();
-}
-
-
 
 
 
@@ -15,35 +13,33 @@ viewport.setAttribute("content", viewport.content + ", height=" + window.innerHe
 
 
 
+if (importLocalStorage) {
+  array = [...JSON.parse(importLocalStorage)];
+  renderNotes();
+}
 
 
 
-let add = document.querySelector('.add-button');
-let modal = document.querySelector('.prompt');
-let input = document.querySelector('.input__area');
-let button = document.querySelector('.input__button');
-
-add.addEventListener('click', () => {
-  button.classList.remove('edit__button')
-  modal.classList.remove('off');
+addNoteButton.addEventListener('click', () => {
+  inputButton.classList.remove('edit__button')
+  inputModalWindow.classList.remove('off');
   input.focus();
 })
 
-button.addEventListener('click', () => {
-  if (!button.classList.contains('edit__button')) {
+
+
+inputButton.addEventListener('click', () => {
+  if (!inputButton.classList.contains('edit__button')) {
     let newNote = {};
     newNote.text = input.value;
     newNote.strike = false;
     newNote.id = array.length;
     array.push(newNote);
     renderNotes();
-    modal.classList.add('off');
+    inputModalWindow.classList.add('off');
     input.value = '';
   }
 })
-
-
-
 
 
 
@@ -52,9 +48,7 @@ function renderNotes () {
 
   document.querySelectorAll('.note').forEach(note => {
     note.classList.add('off');
-  });
-
-  let container = document.querySelector('.container');
+  }); 
 
   array.forEach(elem => {
     let note = document.createElement('div');
@@ -83,20 +77,18 @@ function renderNotes () {
 
   document.querySelectorAll('.note__text').forEach(text => {
     text.addEventListener('click', strikeText);
-  })
+  });
 
   document.querySelectorAll('.note__delete').forEach(elem => {
     elem.addEventListener('click', deleteNote);
-  })
+  });
 
   document.querySelectorAll('.note__edit').forEach(elem => {
     elem.addEventListener('click', editNote);
-  })
+  });
 
   localStorage.setItem('shopping-list-for-mayo', JSON.stringify(array));
 };
-
-
 
 
 
@@ -117,8 +109,6 @@ function strikeText () {
 
 
 
-
-
 function deleteNote () {
   array.splice(this.getAttribute('id'), 1);
   renderNotes();
@@ -126,22 +116,21 @@ function deleteNote () {
 
 
 
-
-
 function editNote () {
-  button.classList.add('edit__button');
-  modal.classList.remove('off');
+  inputButton.classList.add('edit__button');
+  inputModalWindow.classList.remove('off');
   input.focus();
   input.value = array[this.getAttribute('id')].text;
   let tempThis = this;
-  button.addEventListener('click', function tempFunc () {
-    if (button.classList.contains('edit__button')) {
+  
+  inputButton.addEventListener('click', function tempFunc () {
+    if (inputButton.classList.contains('edit__button')) {
       array[tempThis.getAttribute('id')].text = input.value;
       input.value = '';
       renderNotes();
-      modal.classList.add('off');
-      button.classList.remove('edit__button');
-      button.removeEventListener('click', tempFunc);
+      inputModalWindow.classList.add('off');
+      inputButton.classList.remove('edit__button');
+      inputButton.removeEventListener('click', tempFunc);
     }
   })
 }
