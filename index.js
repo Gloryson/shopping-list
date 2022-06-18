@@ -31,7 +31,7 @@ addNoteButton.addEventListener('click', () => {
 inputButton.addEventListener('click', () => {
   if (!inputButton.classList.contains('edit__button')) {
     let newNote = {};
-    newNote.text = input.value;
+    newNote.text = setValueLength(input.value);
     newNote.strike = false;
     newNote.id = array.length;
     array.push(newNote);
@@ -125,7 +125,7 @@ function editNote () {
   
   inputButton.addEventListener('click', function tempFunc () {
     if (inputButton.classList.contains('edit__button')) {
-      array[tempThis.getAttribute('id')].text = input.value;
+      array[tempThis.getAttribute('id')].text = setValueLength(input.value);
       input.value = '';
       renderNotes();
       inputModalWindow.classList.add('off');
@@ -133,4 +133,8 @@ function editNote () {
       inputButton.removeEventListener('click', tempFunc);
     }
   })
+}
+
+function setValueLength (str) {
+  return str.replace(/[^A-ZА-Я]/g, '').length > 10 ? str.slice(0, 20) : str.slice(0, 25);
 }
